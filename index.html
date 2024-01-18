@@ -182,34 +182,39 @@
             // Hide loader when API response is received
             hideLoader();
 
-           if (data.type.startsWith('image')) {
-                const popupContent = document.getElementById('popupContent');
+          if (data.type.startsWith('image')) {
+            const popupContent = document.getElementById('popupContent');
+
+            // Container div for the image and button
+            const imageContainer = document.createElement('div');
+            imageContainer.id = 'imageContainer';
             
-                const imageElement = document.createElement('img');
-                const imageURL = URL.createObjectURL(data);
-                imageElement.src = imageURL;
-                imageElement.id = 'imageContainer';
-                imageElement.style.width = '300px';
-                imageElement.style.height = '300px';
-                popupContent.appendChild(imageElement);
-                imageElement.style.marginBottom = '20px';
-            
-                // Updated download button creation in JavaScript code
-                const downloadButton = document.createElement('button');
-                downloadButton.innerText = 'Download QR';
-                downloadButton.id = 'downloadButton'; // Set id attribute
-                downloadButton.onclick = function () {
-                    downloadImage(imageURL);
-                };
-            
-                // Append the download button after the image
-                popupContent.appendChild(downloadButton);
-            
-                openPopup();
-            } else {
-                document.getElementById('apiResponse').innerText = 'Image URL not found in the API response.';
-                openPopup();
-            }
+            const imageElement = document.createElement('img');
+            const imageURL = URL.createObjectURL(data);
+            imageElement.src = imageURL;
+            imageElement.style.width = '300px';
+            imageElement.style.height = '300px';
+            imageContainer.appendChild(imageElement);
+            imageElement.style.marginBottom = '20px';
+
+            // Download button
+            const downloadButton = document.createElement('button');
+            downloadButton.innerText = 'Download QR';
+            downloadButton.id = 'downloadButton'; // Set id attribute
+            downloadButton.onclick = function () {
+                downloadImage(imageURL);
+            };
+
+            // Append the image container to the popup content
+            popupContent.appendChild(imageContainer);
+            // Append the download button after the image inside the container
+            imageContainer.appendChild(downloadButton);
+
+            openPopup();
+        } else {
+            document.getElementById('apiResponse').innerText = 'Image URL not found in the API response.';
+            openPopup();
+        }
         })
         .catch(error => {
             // Hide loader on error
