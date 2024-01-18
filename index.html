@@ -2,9 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Form with API Call</title>
     <style>
+        
         body {
             font-family: 'Arial', sans-serif;
             background-color: #f4f4f4;
@@ -50,6 +51,24 @@
             background-color: #45a049;
         }
 
+        /* Add media query for smaller screens */
+        @media only screen and (max-width: 600px) {
+            body {
+                height: auto;
+            }
+        
+            form {
+                width: 90%; /* Adjust form width for smaller screens */
+            }
+        
+            .popup {
+                width: 90%; /* Adjust popup width for smaller screens */
+            }
+        }
+
+/* Other existing styles remain unchanged */
+
+
         .popup {
             display: none;
             position: fixed;
@@ -61,6 +80,8 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
             z-index: 1;
+            overflow-y: auto; /* Add scroll bars for vertical overflow */
+            max-height: 80vh; /
         }
 
         .overlay {
