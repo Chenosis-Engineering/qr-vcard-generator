@@ -182,9 +182,9 @@
             // Hide loader when API response is received
             hideLoader();
 
-            if (data.type.startsWith('image')) {
+           if (data.type.startsWith('image')) {
                 const popupContent = document.getElementById('popupContent');
-
+            
                 const imageElement = document.createElement('img');
                 const imageURL = URL.createObjectURL(data);
                 imageElement.src = imageURL;
@@ -193,19 +193,18 @@
                 imageElement.style.height = '300px';
                 popupContent.appendChild(imageElement);
                 imageElement.style.marginBottom = '20px';
-
-                if (!document.getElementById('downloadButton')) {
-                    // Updated download button creation in JavaScript code
-                    const downloadButton = document.createElement('button');
-                    downloadButton.innerText = 'Download QR';
-                    downloadButton.id = 'downloadButton'; // Set id attribute
-                    downloadButton.onclick = function () {
-                        downloadImage(imageURL);
+            
+                // Updated download button creation in JavaScript code
+                const downloadButton = document.createElement('button');
+                downloadButton.innerText = 'Download QR';
+                downloadButton.id = 'downloadButton'; // Set id attribute
+                downloadButton.onclick = function () {
+                    downloadImage(imageURL);
                 };
+            
+                // Append the download button after the image
                 popupContent.appendChild(downloadButton);
-            }
-
-
+            
                 openPopup();
             } else {
                 document.getElementById('apiResponse').innerText = 'Image URL not found in the API response.';
