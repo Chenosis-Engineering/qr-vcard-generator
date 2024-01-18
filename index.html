@@ -151,9 +151,15 @@
 
 <div class="overlay" id="overlay"></div>
 <div class="popup" id="popup">
-    <div id="popupContent"></div>
+    <div id="popupContent">
+        <!-- Container for the image -->
+        <div id="imageContainer"></div>
+        
+        <!-- Add a download button below the image -->
+        <button id="downloadButton" onclick="downloadImage()">Download QR</button>
+    </div>
     <p id="apiResponse"></p>
-   <div> <button id="closeButton" onclick="closePopup()">X</button></div>
+    <button id="closeButton" onclick="closePopup()">X</button>
 </div>
 
 <div class="overlay" id="loaderOverlay"></div>
