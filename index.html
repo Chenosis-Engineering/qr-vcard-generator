@@ -230,6 +230,13 @@
     }
 
     function closePopup() {
+        // Clear content inside the popupContent element
+        const popupContent = document.getElementById('popupContent');
+        while (popupContent.firstChild) {
+            popupContent.removeChild(popupContent.firstChild);
+        }
+    
+        // Hide overlay and popup
         document.getElementById('overlay').style.display = 'none';
         document.getElementById('popup').style.display = 'none';
     }
