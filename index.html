@@ -154,9 +154,6 @@
     <div id="popupContent">
         <!-- Container for the image -->
         <div id="imageContainer"></div>
-        
-        <!-- Add a download button below the image -->
-        <button id="downloadButton" onclick="downloadImage()">Download QR</button>
     </div>
     <p id="apiResponse"></p>
     <button id="closeButton" onclick="closePopup()">X</button>
@@ -166,65 +163,65 @@
 <div class="loader" id="loader"></div>
 
 <script>
-    function submitForm() {
-        // Disable submit button while waiting for API response
-        document.getElementById('submitBtn').disabled = true;
+function submitForm() {
+    // Disable submit button while waiting for API response
+    document.getElementById('submitBtn').disabled = true;
 
-        // Display loader while waiting for API response
-        showLoader();
+    // Display loader while waiting for API response
+    showLoader();
 
-        // Fetch API call goes here
-        fetch('https://dev.api.chenosis.io/staticform/test', {
-            method: 'GET',
-        })
-        .then(response => response.blob())
-        .then(data => {
-            // Hide loader when API response is received
-            hideLoader();
+    // Fetch API call goes here
+    fetch('https://dev.api.chenosis.io/staticform/test', {
+        method: 'GET',
+    })
+    .then(response => response.blob())
+    .then(data => {
+        // Hide loader when API response is received
+        hideLoader();
 
-          if (data.type.startsWith('image')) {
-            const popupContent = document.getElementById('popupContent');
+      if (data.type.startsWith('image')) {
+        const popupContent = document.getElementById('popupContent');
 
-            // Container div for the image and button
-            const imageContainer = document.createElement('div');
-            imageContainer.id = 'imageContainer';
-            
-            const imageElement = document.createElement('img');
-            const imageURL = URL.createObjectURL(data);
-            imageElement.src = imageURL;
-            imageElement.style.width = '300px';
-            imageElement.style.height = '300px';
-            imageContainer.appendChild(imageElement);
-            imageElement.style.marginBottom = '20px';
+        // Container div for the image and button
+        const imageContainer = document.getElementById('imageContainer');
+        imageContainer.innerHTML = ''; // Clear any existing content
 
-            // Download button
-            const downloadButton = document.createElement('button');
-            downloadButton.innerText = 'Download QR';
-            downloadButton.id = 'downloadButton'; // Set id attribute
-            downloadButton.onclick = function () {
-                downloadImage(imageURL);
-            };
+        const imageElement = document.createElement('img');
+        const imageURL = URL.createObjectURL(data);
+        imageElement.src = imageURL;
+        imageElement.style.width = '300px';
+        imageElement.style.height = '300px';
+        imageContainer.appendChild(imageElement);
+        imageElement.style.marginBottom = '20px';
 
-            // Append the image container to the popup content
-            popupContent.appendChild(imageContainer);
-            // Append the download button after the image inside the container
-            imageContainer.appendChild(downloadButton);
+        // Download button
+        const downloadButton = document.createElement('button');
+        downloadButton.innerText = 'Download QR';
+        downloadButton.id = 'downloadButton'; // Set id attribute
+        downloadButton.onclick = function () {
+            downloadImage(imageURL);
+        };
 
-            openPopup();
-        } else {
-            document.getElementById('apiResponse').innerText = 'Image URL not found in the API response.';
-            openPopup();
-        }
-        })
-        .catch(error => {
-            // Hide loader on error
-            hideLoader();
+        // Append the download button after the image inside the container
+        imageContainer.appendChild(downloadButton);
 
-            console.error('Error:', error);
-            document.getElementById('apiResponse').innerText = 'Error occurred while processing the request.';
-            openPopup();
-        });
+        openPopup();
+    } else {
+        document.getElementById('apiResponse').innerText = 'Image URL not found in the API response.';
+        openPopup();
     }
+    })
+    .catch(error => {
+        // Hide loader on error
+        hideLoader();
+
+        console.error('Error:', error);
+        document.getElementById('apiResponse').innerText = 'Error occurred while processing the request.';
+        openPopup();
+    });
+}
+
+// Rest of the JavaScript code here
 
     function showLoader() {
         // Display loader and overlay
