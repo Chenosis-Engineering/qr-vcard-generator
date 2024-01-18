@@ -193,14 +193,18 @@
                 imageElement.style.height = '300px';
                 popupContent.appendChild(imageElement);
                 imageElement.style.marginBottom = '20px';
-                // Updated download button creation in JavaScript code
-                const downloadButton = document.createElement('button');
-                downloadButton.innerText = 'Download QR';
-                downloadButton.id = 'downloadButton'; // Set id attribute
-                downloadButton.onclick = function() {
-                    downloadImage(imageURL);
+
+                if (!document.getElementById('downloadButton')) {
+                    // Updated download button creation in JavaScript code
+                    const downloadButton = document.createElement('button');
+                    downloadButton.innerText = 'Download QR';
+                    downloadButton.id = 'downloadButton'; // Set id attribute
+                    downloadButton.onclick = function () {
+                        downloadImage(imageURL);
                 };
                 popupContent.appendChild(downloadButton);
+            }
+
 
                 openPopup();
             } else {
