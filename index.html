@@ -116,24 +116,28 @@
                 phone: document.getElementById('phone').value,
             }),
         })
-        .then(response =>  response.json()) 
+        .then(response => response.blob())  // Use response.blob() to handle binary data
         .then(data => { 
-             if (data.imageUrl) {
+             if (data.type.startsWith('image')) {
                 const popupContent = document.getElementById('popupContent');
                 
                 // Create an image element dynamically
                 const imageElement = document.createElement('img');
-                imageElement.src = data.imageUrl;
+                const imageURL = URL.createObjectURL(data); // Create a Blob URL for the image
+                imageElement.src = imageURL;
                 imageElement.id = 'imageContainer'; // Add an id for reference
                 popupContent.appendChild(imageElement);
 
                 // Create a download button dynamically
                 const downloadButton = document.createElement('button');
                 downloadButton.innerText = 'Download Image';
-                downloadButton.onclick = downloadImage;
+                downloadButton.onclick = function() {
+                    downloadImage(imageURL); // Pass the Blob URL to the download function
+                };
                 popupContent.appendChild(downloadButton);
 
                 openPopup();
+
             } else {
                 document.getElementById('apiResponse').innerText = 'Image URL not found in the API response.';
                 openPopup();
@@ -146,28 +150,26 @@
         });
     }
 
-function downloadImage() {
-    const imageContainer = document.getElementById('popupContent').getElementsByTagName('img')[0];
-    const imageSrc = imageContainer.src;
 
-    // Create a link element
-    const link = document.createElement('a');
+    function downloadImage(imageURL) {
+        // Create a link element
+        const link = document.createElement('a');
 
-    // Set the href attribute to the image source
-    link.href = imageSrc;
+        // Set the href attribute to the image source
+        link.href = imageURL;
 
-    // Set the download attribute with the desired filename
-    link.download = 'downloaded_image.jpg';
+        // Set the download attribute with the desired filename
+        link.download = 'downloaded_image.jpg';
 
-    // Append the link to the document
-    document.body.appendChild(link);
+        // Append the link to the document
+        document.body.appendChild(link);
 
-    // Trigger a click on the link to start the download
-    link.click();
+        // Trigger a click on the link to start the download
+        link.click();
 
-    // Remove the link from the document
-    document.body.removeChild(link);
-}
+        // Remove the link from the document
+        document.body.removeChild(link);
+    }
 
 
 
