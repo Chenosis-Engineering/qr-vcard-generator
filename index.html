@@ -73,6 +73,26 @@
             background-color: rgba(0, 0, 0, 0.5);
             z-index: 1;
         }
+
+        .loader {
+            border: 8px solid #f3f3f3;
+            border-top: 8px solid #3498db;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+            display: none;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body>
@@ -100,56 +120,66 @@
     <button onclick="closePopup()">Close</button>
 </div>
 
+<div class="overlay" id="loaderOverlay"></div>
+<div class="loader" id="loader"></div>
+
 <script>
     function submitForm() {
+        // Display loader while waiting for API response
+        showLoader();
+
         // Fetch API call goes here
-        // Replace the URL with your API endpoint
         fetch('https://dev.api.chenosis.io/staticform/test', {
             method: 'GET',
-            // headers: {
-            //     'Content-Type': 'application/json',
-            // },
-            // body: JSON.stringify({
-            //     firstname: document.getElementById('firstname').value,
-            //     lastname: document.getElementById('lastname').value,
-            //     email: document.getElementById('email').value,
-            //     phone: document.getElementById('phone').value,
-            // }),
         })
-        .then(response => response.blob())  // Use response.blob() to handle binary data
-        .then(data => { 
-             if (data.type.startsWith('image')) {
+        .then(response => response.blob())
+        .then(data => {
+            // Hide loader when API response is received
+            hideLoader();
+
+            if (data.type.startsWith('image')) {
                 const popupContent = document.getElementById('popupContent');
-                
-                // Create an image element dynamically
+
                 const imageElement = document.createElement('img');
-                const imageURL = URL.createObjectURL(data); // Create a Blob URL for the image
+                const imageURL = URL.createObjectURL(data);
                 imageElement.src = imageURL;
-                imageElement.id = 'imageContainer'; // Add an id for reference
+                imageElement.id = 'imageContainer';
                 popupContent.appendChild(imageElement);
 
-                // Create a download button dynamically
                 const downloadButton = document.createElement('button');
                 downloadButton.innerText = 'Download Image';
                 downloadButton.onclick = function() {
-                    downloadImage(imageURL); // Pass the Blob URL to the download function
+                    downloadImage(imageURL);
                 };
                 popupContent.appendChild(downloadButton);
 
                 openPopup();
-
             } else {
                 document.getElementById('apiResponse').innerText = 'Image URL not found in the API response.';
                 openPopup();
             }
         })
         .catch(error => {
+            // Hide loader on error
+            hideLoader();
+
             console.error('Error:', error);
             document.getElementById('apiResponse').innerText = 'Error occurred while processing the request.';
             openPopup();
         });
     }
 
+    function showLoader() {
+        // Display loader and overlay
+        document.getElementById('overlay').style.display = 'block';
+        document.getElementById('loader').style.display = 'block';
+    }
+
+    function hideLoader() {
+        // Hide loader and overlay
+        document.getElementById('overlay').style.display = 'none';
+        document.getElementById('loader').style.display = 'none';
+    }
 
     function downloadImage(imageURL) {
         // Create a link element
@@ -170,8 +200,6 @@
         // Remove the link from the document
         document.body.removeChild(link);
     }
-
-
 
     function openPopup() {
         document.getElementById('overlay').style.display = 'block';
