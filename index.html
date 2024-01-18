@@ -93,6 +93,19 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+
+        /* Styles for centering the download button */
+        button#downloadButton {
+            display: block;
+            margin: 0 auto;
+        }
+
+        /* Styles for positioning the close button on the top right */
+        button#closeButton {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
     </style>
 </head>
 <body>
@@ -110,14 +123,16 @@
     <label for="phone">Phone Number:</label>
     <input type="tel" id="phone" name="phone" required>
 
-    <button type="button" onclick="submitForm()">Submit</button>
+    <!-- Updated submit button with id -->
+    <button type="button" id="submitBtn" onclick="submitForm()">Submit</button>
 </form>
 
 <div class="overlay" id="overlay"></div>
 <div class="popup" id="popup">
     <div id="popupContent"></div>
     <p id="apiResponse"></p>
-    <button onclick="closePopup()">Close</button>
+    <!-- Updated close button creation and styling -->
+    <button id="closeButton" onclick="closePopup()">X</button>
 </div>
 
 <div class="overlay" id="loaderOverlay"></div>
@@ -125,6 +140,9 @@
 
 <script>
     function submitForm() {
+        // Disable submit button while waiting for API response
+        document.getElementById('submitBtn').disabled = true;
+
         // Display loader while waiting for API response
         showLoader();
 
@@ -146,8 +164,10 @@
                 imageElement.id = 'imageContainer';
                 popupContent.appendChild(imageElement);
 
+                // Updated download button creation in JavaScript code
                 const downloadButton = document.createElement('button');
-                downloadButton.innerText = 'Download Image';
+                downloadButton.innerText = 'Download QR';
+                downloadButton.id = 'downloadButton'; // Set id attribute
                 downloadButton.onclick = function() {
                     downloadImage(imageURL);
                 };
@@ -179,6 +199,9 @@
         // Hide loader and overlay
         document.getElementById('overlay').style.display = 'none';
         document.getElementById('loader').style.display = 'none';
+
+        // Enable submit button when loader is hidden
+        document.getElementById('submitBtn').disabled = false;
     }
 
     function downloadImage(imageURL) {
