@@ -184,7 +184,7 @@ function submitForm() {
     showLoader();
 
     // Fetch API call goes here
-    fetch('https://dev.api.chenosis.io/staticform/test', {
+    fetch('https://dev.api.chenosis.io/staticform', {
         method: 'GET',
     })
     .then(response => response.blob())
