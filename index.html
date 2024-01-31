@@ -1,293 +1,375 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Form with API Call</title>
     <style>
-        
+      @font-face {
+        font-family: 'Mont';
+        src: url(fonts/Mont-HeavyDEMO.otf);
+      }
+
+      * {
+        /**border-style: solid;**/
+        scroll-behavior: smooth;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Mont', sans-serif;
+        background-color: #f4f4f4;
+        background-image: url(assets/ScanBG.jpg);
+        background-size: cover;
+        background-repeat: no-repeat;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        flex-direction: column;
+      }
+
+      form {
+        /*background-color: #fff;*/
+        /*background: rgba(255, 255, 255, 0.9);*/
+        /* padding: 20px;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.6); */
+        /* margin-top: 10vh;*/
+        /* Add margin-top to center the form */
+        /* width: 60%;
+               max-width: 400px;
+               margin: 5vh auto;
+               box-sizing: border-box; */
+        margin: 2vh auto;
+        padding: 20px;
+        box-sizing: border-box;
+        /*padding-left: 200px;*/
+        padding-left: 20px;
+        padding-right: 20px;
+        max-width: 600px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 8px;
+      }
+
+      input {
+        width: 100%;
+        height: 40px;
+        padding: 8px;
+        margin-bottom: 16px;
+        box-sizing: border-box;
+        border: .1px none #ccc;
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.9);
+        padding-left: 10px;
+        margin-right: 0px;
+      }
+
+      button {
+        background-color: #4caf50;
+        color: #fff;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 15px;
+        cursor: pointer;
+        margin-right: 150px;
+        margin-left: 150px;
+        width: 130px;
+      }
+
+      button:hover {
+        background-color: #45a049;
+      }
+
+      /* Add media query for smaller screens */
+      @media only screen and (max-width: 600px) {
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
+          height: auto;
         }
 
         form {
-                background-color: #fff;
-                padding: 20px;
-                border-radius: 8px;
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                margin-top: 10vh; /* Add margin-top to center the form */
-            }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
+          width: 90%;
+          /* Adjust form width for smaller screens */
+          margin: 5vh auto;
+          padding-left: 10px;
+          padding-right: 10px;
         }
-
-        input {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 16px;
-            box-sizing: border-box;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-
-        button {
-            background-color: #4caf50;
-            color: #fff;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #45a049;
-        }
-
-        /* Add media query for smaller screens */
-        @media only screen and (max-width: 600px) {
-            body {
-                height: auto;
-            }
-        
-            form {
-                width: 90%; /* Adjust form width for smaller screens */
-            }
-        
-            .popup {
-                width: 90%; /* Adjust popup width for smaller screens */
-            }
-        }
-
-/* Other existing styles remain unchanged */
-
 
         .popup {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            padding: 20px;
-            background-color: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            z-index: 1;
-            overflow-y: auto; /* Add scroll bars for vertical overflow */
-            max-height: 80vh; /
+          width: 90%;
+          /* Adjust popup width for smaller screens */
         }
 
-        .overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 1;
+        .genLabel {
+          padding-bottom: 20px;
+          padding-right: 10px;
+          margin-right: 0;
+        }
+      }
+
+      /* Other existing styles remain unchanged */
+      .popup {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        z-index: 1;
+        overflow-y: auto;
+        /* Add scroll bars for vertical overflow */
+        max-height: 80vh;/
+      }
+
+      .overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1;
+      }
+
+      .loader {
+        border: 8px solid #f3f3f3;
+        border-top: 8px solid #3498db;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        animation: spin 1s linear infinite;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 2;
+        display: none;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
         }
 
-        .loader {
-            border: 8px solid #f3f3f3;
-            border-top: 8px solid #3498db;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            animation: spin 1s linear infinite;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 2;
-            display: none;
+        100% {
+          transform: rotate(360deg);
         }
+      }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
+      /* Styles for centering the download button */
+      button#downloadButton {
+        display: block;
+        margin: 0 auto;
+      }
 
-        /* Styles for centering the download button */
-        button#downloadButton {
-            display: block;
-            margin: 0 auto;
-        }
+      /* Styles for positioning the close button on the top right */
+      button#closeButton {
+        position: absolute;
+        padding-bottom: 10px;
+        /* margin-right: 10px; */
+        top: -6px;
+        /* top: 5px; */
+        /* bottom: 10px; */
+        right: -88px;
+        width: 20px;
+        /* Adjust width to one third of its size */
+        height: 10px;
+        /* Adjust height to one third of its size */
+        font-size: 18px;
+        /* Adjust font size if needed */
+        background-color: transparent;
+        /* Remove the green background */
+        color: #000;
+        /* Set the text color to black */
+        border: none;
+        /* Remove any border */
+        cursor: pointer;
+      }
 
-        /* Styles for positioning the close button on the top right */
-         button#closeButton {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            width: 20px; /* Adjust width to one third of its size */
-            height: 20px; /* Adjust height to one third of its size */
-            font-size: 12px; /* Adjust font size if needed */
-            background-color: transparent; /* Remove the green background */
-            color: #000; /* Set the text color to black */
-            border: none; /* Remove any border */
-            cursor: pointer;
-        }
+      button#closeButton:hover {
+        color: rgb(216, 94, 94)
+      }
+
+      .genLabel {
+        display: flex;
+        justify-content: flex-start;
+        align-items: start;
+        padding-right: 30px;
+        padding-bottom: 1px;
+        margin-right: 20px;
+        margin-bottom: 1px;
+        font-style: none;
+      }
+
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+
+      .genLabel:hover {
+        color: #fff;
+      }
     </style>
-</head>
-<body>
-
-<form id="myForm">
-    <label for="firstname">Name:</label>
-    <input type="text" id="firstname" name="firstname" required>
-
-    <label for="lastname">Job Title:</label>
-    <input type="text" id="lastname" name="lastname" required>
-
-    <label for="lastname">Company:</label>
-    <input type="text" id="lastname" name="lastname" required>
-
-     <label for="phone">Phone Number:</label>
-    <input type="tel" id="phone" name="phone" required>
-
-    <label for="email">Email ID:</label>
-    <input type="email" id="email" name="email" required>
-
-   <label for="email">URL Homepage:</label>
-    <input type="url" id="url" name="url" required>
-
-    <!-- Updated submit button with id -->
-    <button type="button" id="submitBtn" onclick="submitForm()">Submit</button>
-</form>
-
-<div class="overlay" id="overlay"></div>
-<div class="popup" id="popup">
-    <div id="popupContent">
+  </head>
+  <body>
+    <a href="#myForm">
+      <h1 class="genLabel">Generate Your QR :)</h1>
+    </a>
+    <form id="myForm" class="fisrtForm">
+      <label for="firstname">Name:</label>
+      <input type="text" placeholder="eg. John" id="firstname" name="firstname" required>
+      <label for="company">Company:</label>
+      <input type="text" placeholder="Company name" id="company" name="company" required>
+      <label for="jobtitle">Job Title:</label>
+      <input type="text" placeholder="eg. Sales Manager, Engineer, etc" id="jobtitle" name="jobtitle" required>
+      <label for="phone">Phone Number:</label>
+      <input type="tel" placeholder="eg. (072) 354 6789" id="phone" name="phone" required>
+      <label for="email">Email ID:</label>
+      <input type="email" placeholder="eg. johndoe@example.com" id="email" name="email" required>
+      <label for="url">URL Homepage:</label>
+      <input type="url" placeholder="eg. www.example.com" id="url" name="url" required>
+      <!-- Updated submit button with id -->
+      <button type="button" id="submitBtn" onclick="submitForm()">Submit</button>
+    </form>
+    <div class="overlay" id="overlay"></div>
+    <div class="popup" id="popup">
+      <button id="closeButton" onclick="closePopup()">close</button>
+      <div id="popupContent">
         <!-- Container for the image -->
         <div id="imageContainer"></div>
+      </div>
+      <p id="apiResponse"></p>
     </div>
-    <p id="apiResponse"></p>
-    <button id="closeButton" onclick="closePopup()">X</button>
-</div>
+    <div class="overlay" id="loaderOverlay"></div>
+    <div class="loader" id="loader"></div>
+    <script>
+      function submitForm() {
+        // Disable submit button while waiting for API response
+        document.getElementById('submitBtn').disabled = true;
+        // Display loader while waiting for API response
+        showLoader();
+        const formData = new FormData(document.getElementById('myForm')); // Get form data directly
+        const base64Image = '';
+        fetch('assets/VizorAds_Bg.jpg') // Replace 'image.jpg' with your image file name
+        .then(response => response.blob())
+        .then(blob => {
+       
+        formData.append('file', blob, 'image.jpg');
 
-<div class="overlay" id="loaderOverlay"></div>
-<div class="loader" id="loader"></div>
+        //formData.append('file', base64Image); // Append the Base64 image data to form data
+        formData.append('scaleFactor', 1);
+        formData.append('position', "center");
+        formData.append('link', `BEGIN:VCARD
+                            VERSION:3.0
+                            FN:Krishna Kumar
+                            ORG:Chenosis
+                            TEL:+918760250230
+                            EMAIL:krishna.venkatachalam@mtn.com
+                            END:VCARD`);
+     
+          fetch('https://preprod.api.chenosis.io/vizorads/vcard/generate', {
+            method: 'POST',
+            body: formData, // Send 
+          }).then(response => response.blob()).then(data => {
+            // Hide loader when API response is received
+            hideLoader();
+            if (data.type.startsWith('image')) {
+              const popupContent = document.getElementById('popupContent');
+              // Container div for the image and button
+              const imageContainer = document.getElementById('imageContainer');
+              imageContainer.innerHTML = ''; // Clear any existing content
+              const imageElement = document.createElement('img');
+              const imageURL = URL.createObjectURL(data);
+              imageElement.src = imageURL;
+              imageElement.style.width = '300px';
+              imageElement.style.height = '300px';
+              imageContainer.appendChild(imageElement);
+              imageElement.style.marginBottom = '20px';
+              // Download button
+              const downloadButton = document.createElement('button');
+              downloadButton.innerText = 'Download QR';
+              downloadButton.id = 'downloadButton'; // Set id attribute
+              downloadButton.onclick = function() {
+                downloadImage(imageURL);
+              };
+              // Append the download button after the image inside the container
+              imageContainer.appendChild(downloadButton);
+              openPopup();
+            } else {
+              document.getElementById('apiResponse').innerText = 'Image URL not found in the API response.';
+              openPopup();
+            }
+          }).catch(error => {
+            // Hide loader on error
+            hideLoader();
+            console.error('Error:', error);
+            document.getElementById('apiResponse').innerText = 'Error occurred while processing the request.';
+            openPopup();
+          });
 
-<script>
-function submitForm() {
-    // Disable submit button while waiting for API response
-    document.getElementById('submitBtn').disabled = true;
-
-    // Display loader while waiting for API response
-    showLoader();
-
-    // Fetch API call goes here
-    fetch('https://dev.api.chenosis.io/staticform', {
-        method: 'GET',
-    })
-    .then(response => response.blob())
-    .then(data => {
-        // Hide loader when API response is received
-        hideLoader();
-
-      if (data.type.startsWith('image')) {
-        const popupContent = document.getElementById('popupContent');
-
-        // Container div for the image and button
-        const imageContainer = document.getElementById('imageContainer');
-        imageContainer.innerHTML = ''; // Clear any existing content
-
-        const imageElement = document.createElement('img');
-        const imageURL = URL.createObjectURL(data);
-        imageElement.src = imageURL;
-        imageElement.style.width = '300px';
-        imageElement.style.height = '300px';
-        imageContainer.appendChild(imageElement);
-        imageElement.style.marginBottom = '20px';
-
-        // Download button
-        const downloadButton = document.createElement('button');
-        downloadButton.innerText = 'Download QR';
-        downloadButton.id = 'downloadButton'; // Set id attribute
-        downloadButton.onclick = function () {
-            downloadImage(imageURL);
-        };
-
-        // Append the download button after the image inside the container
-        imageContainer.appendChild(downloadButton);
-
-        openPopup();
-    } else {
-        document.getElementById('apiResponse').innerText = 'Image URL not found in the API response.';
-        openPopup();
-    }
-    })
-    .catch(error => {
-        // Hide loader on error
-        hideLoader();
-
-        console.error('Error:', error);
-        document.getElementById('apiResponse').innerText = 'Error occurred while processing the request.';
-        openPopup();
-    });
-}
-
-// Rest of the JavaScript code here
-
-    function showLoader() {
+        })
+        .catch(error => {
+            // Handle fetch error
+            console.error('Error:', error);
+        });
+       
+      }
+      // Rest of the JavaScript code here
+      function showLoader() {
         // Display loader and overlay
         document.getElementById('overlay').style.display = 'block';
         document.getElementById('loader').style.display = 'block';
-    }
+      }
 
-    function hideLoader() {
+      function hideLoader() {
         // Hide loader and overlay
         document.getElementById('overlay').style.display = 'none';
         document.getElementById('loader').style.display = 'none';
-
         // Enable submit button when loader is hidden
         document.getElementById('submitBtn').disabled = false;
-    }
+      }
 
-    function downloadImage(imageURL) {
+      function downloadImage(imageURL) {
         // Create a link element
         const link = document.createElement('a');
-
         // Set the href attribute to the image source
         link.href = imageURL;
-
         // Set the download attribute with the desired filename
         link.download = 'downloaded_image.jpg';
-
         // Append the link to the document
         document.body.appendChild(link);
-
         // Trigger a click on the link to start the download
         link.click();
-
         // Remove the link from the document
         document.body.removeChild(link);
-    }
+      }
 
-    function openPopup() {
+      function openPopup() {
         document.getElementById('overlay').style.display = 'block';
         document.getElementById('popup').style.display = 'block';
-    }
+      }
 
-    function closePopup() {
+      function closePopup() {
         // Clear content inside the popupContent element
         const popupContent = document.getElementById('popupContent');
         while (popupContent.firstChild) {
-            popupContent.removeChild(popupContent.firstChild);
+          popupContent.removeChild(popupContent.firstChild);
         }
-    
         // Hide overlay and popup
         document.getElementById('overlay').style.display = 'none';
         document.getElementById('popup').style.display = 'none';
-    }
-</script>
-
-</body>
+      }
+    </script>
+  </body>
 </html>
