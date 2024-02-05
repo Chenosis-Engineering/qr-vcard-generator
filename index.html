@@ -259,11 +259,11 @@
     <label for="firstname">Name:</label>
     <input type="text" placeholder="eg. John"  id="firstname" name="firstname" required>
 
-    <label for="lastname">Job Title:</label>
-    <input type="text" placeholder="eg. Sales Manager, Engineer, etc" id="jobtitle" name="lastname" required>
+    <label for="jobtitle">Job Title:</label>
+    <input type="text" placeholder="eg. Sales Manager, Engineer, etc" id="jobtitle" name="jobtitle" required>
 
-    <label for="lastname">Company:</label>
-    <input type="text" placeholder="Company name"  id="company" name="lastname" required>
+    <label for="company">Company:</label>
+    <input type="text" placeholder="Company name"  id="company" name="company" required>
 
      <label for="phone">Phone Number:</label>
     <input type="tel" placeholder="eg. (072) 354 6789" id="phone" name="phone" required>
@@ -303,16 +303,16 @@ function submitForm() {
     //validate correct inputs
     
     //validation
-    var name = document.getElementById('firstname').value;
-    var jobTitle = document.getElementById('jobtitle').value;
+    var firstname = document.getElementById('firstname').value;
+    var jobtitle = document.getElementById('jobtitle').value;
     var company = document.getElementById('company').value;
     var phone = document.getElementById('phone').value;
     var email = document.getElementById('email').value;
     var url = document.getElementById('url').value;
-    if(name === '' || company === '' || jobTitle === '' || phone === '' || email === '' || url === ''){
+    if(firstname === '' || company === '' || jobtitle === '' || phone === '' || email === '' || url === ''){
         // alert('Please fill in all fields');   
-        highlightEmptyFields(name, 'firstname');
-        highlightEmptyFields(jobTitle, 'jobtitle');
+        highlightEmptyFields(firstname, 'firstname');
+        highlightEmptyFields(jobtitle, 'jobtitle');
         highlightEmptyFields(company, 'company');
         highlightEmptyFields(phone, 'phone');
         highlightEmptyFields(email, 'email');
@@ -329,10 +329,23 @@ function submitForm() {
     // Display loader while waiting for API response
     showLoader();
 
-    // Fetch API call goes here
-    fetch('https://dev.api.chenosis.io/staticform', {
-        method: 'GET',
-    })
+    // Convert form data to JSON
+      const formData = {
+        firstname,
+        jobtitle,
+        company,
+        phone,
+        email,
+        url
+      };
+
+      // Send a POST request with JSON payload
+      fetch('https://preprod.api.chenosis.io/vizorads/vcard/generate', {
+        method: 'PUT    ',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
     .then(response => response.blob())
     .then(data => {
         // Hide loader when API response is received
