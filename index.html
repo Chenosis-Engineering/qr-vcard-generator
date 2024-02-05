@@ -285,9 +285,10 @@
 <div class="overlay" id="overlay"></div>
 <div class="popup" id="popup">
     <button id="closeButton" onclick="closePopup()">close</button>
+    <div id="imageContainer"></div>
     <div id="popupContent">
         <!-- Container for the image -->
-        <div id="imageContainer"></div>
+        
     </div>
     <p id="apiResponse"></p>
     
@@ -356,8 +357,8 @@ function submitForm() {
 
         // Container div for the image and button
         const imageContainer = document.getElementById('imageContainer');
-          if (imageContainer) {
-        imageContainer.innerHTML = ''; }// Clear any existing content
+         
+        imageContainer.innerHTML = ''; // Clear any existing content
 
         const imageElement = document.createElement('img');
         const imageURL = URL.createObjectURL(data);
