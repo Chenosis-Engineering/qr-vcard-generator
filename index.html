@@ -341,11 +341,11 @@ function submitForm() {
 
       // Send a POST request with JSON payload
       fetch('https://preprod.api.chenosis.io/vizorads/vcard/generate', {
-        method: 'PUT    ',
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(formData) })
     .then(response => response.blob())
     .then(data => {
         // Hide loader when API response is received
