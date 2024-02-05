@@ -356,7 +356,8 @@ function submitForm() {
 
         // Container div for the image and button
         const imageContainer = document.getElementById('imageContainer');
-        imageContainer.innerHTML = ''; // Clear any existing content
+          if (imageContainer) {
+        imageContainer.innerHTML = ''; }// Clear any existing content
 
         const imageElement = document.createElement('img');
         const imageURL = URL.createObjectURL(data);
