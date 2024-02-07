@@ -285,12 +285,12 @@
     <input type="text" placeholder="Company name"  id="company" name="company" required>
 
      <label for="phone">Phone Number:</label>
-    <input type="tel" placeholder="eg. (072) 354 6789" id="phone" name="phone" required>
+    <input type="tel" placeholder="eg. +2772 354 6789" pattern="^\+(?:[0-9] ?){6,14}[0-9]$" id="phone" name="phone" required>
 
     <label for="email">Email:</label>
     <input type="email" placeholder="eg. johndoe@example.com" id="email" name="email" required>
 
-   <label for="email">Website:</label>
+   <label for="url">Website:</label>
     <input type="url" placeholder="eg. www.example.com" id="url" name="url" required>
     <p id="errormsg"></p>
     <!-- Updated submit button with id -->
@@ -323,26 +323,21 @@
 <script>
 function submitForm() {
     
-
-    //validate correct inputs
-    
     //validation
     var firstname = document.getElementById('firstname').value;
-    var jobtitle = document.getElementById('jobtitle').value;
-    var company = document.getElementById('company').value;
     var phone = document.getElementById('phone').value;
     var email = document.getElementById('email').value;
-    var url = document.getElementById('url').value;
-    if(firstname === '' || company === '' || jobtitle === '' || phone === '' || email === '' || url === ''){
+    
+    if(firstname === ''|| phone === '' || email === ''){
         // alert('Please fill in all fields');   
         highlightEmptyFields(firstname, 'firstname');
-        highlightEmptyFields(jobtitle, 'jobtitle');
-        highlightEmptyFields(company, 'company');
         highlightEmptyFields(phone, 'phone');
         highlightEmptyFields(email, 'email');
-        highlightEmptyFields(url, 'url');
+       
         document.getElementById('errormsg').innerText = "Please fill in all fields*";
     }else if(!isValidPhone(phone)){
+        
+    //validate correct inputs
         highlightField('phone');
     }else{
 
@@ -355,12 +350,12 @@ function submitForm() {
 
     // Convert form data to JSON
       const formData = {
-        firstname,
-        jobtitle,
-        company,
-        phone,
-        email,
-        url
+        "FN" : firstname,
+        "TITLE": jobtitle,
+        "ORG" : company,
+        "TEL" : phone,
+        "EMAIL" : email,
+        "URL" : url
       };
 
       // Send a POST request with JSON payload
