@@ -275,8 +275,11 @@
     
 
 <form id="myForm" class="fisrtForm"  >
-    <label for="firstname">Name:</label>
+    <label for="firstname">First Name:</label>
     <input type="text" placeholder="eg. John"  id="firstname" name="firstname" required>
+
+    <label for="lastname">Last Name:</label>
+    <input type="text" placeholder="eg. Doe"  id="lastname" name="lastname" required>
 
     <label for="jobtitle">Job Title:</label>
     <input type="text" placeholder="eg. Sales Manager, Engineer, etc" id="jobtitle" name="jobtitle" required>
@@ -290,7 +293,7 @@
     <label for="email">Email:</label>
     <input type="email" placeholder="eg. johndoe@example.com" id="email" name="email" required>
 
-   <label for="email">Website:</label>
+   <label for="url">Website:</label>
     <input type="url" placeholder="eg. www.example.com" id="url" name="url" required>
     <p id="errormsg"></p>
     <!-- Updated submit button with id -->
@@ -325,8 +328,12 @@ function submitForm() {
     
     //validation
     var firstname = document.getElementById('firstname').value;
+    var lastname =  document.getElementById('lastname').value;
     var phone = document.getElementById('phone').value;
     var email = document.getElementById('email').value;
+    var company = document.getElementById('company').value;
+    var jobtitle = document.getElementById('jobtitle').value;
+    var url = document.getElementById('url').value;
     
     if(firstname === ''|| phone === '' || email === ''){
         // alert('Please fill in all fields');   
@@ -352,12 +359,12 @@ function submitForm() {
 
     // Convert form data to JSON
       const formData = {
-        firstname,
-        jobtitle,
-        company,
-        phone,
-        email,
-        url
+        "N" : lastname+";"+firstname,
+        "TITLE": jobtitle,
+        "ORG" : company,
+        "TEL" : phone,
+        "EMAIL" : email,
+        "URL" : url
       };
 
       // Send a POST request with JSON payload
