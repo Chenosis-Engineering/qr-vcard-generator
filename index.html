@@ -290,7 +290,7 @@
     <label for="email">Email:</label>
     <input type="email" placeholder="eg. johndoe@example.com" id="email" name="email" required>
 
-   <label for="url">Website:</label>
+   <label for="email">Website:</label>
     <input type="url" placeholder="eg. www.example.com" id="url" name="url" required>
     <p id="errormsg"></p>
     <!-- Updated submit button with id -->
@@ -327,9 +327,6 @@ function submitForm() {
     var firstname = document.getElementById('firstname').value;
     var phone = document.getElementById('phone').value;
     var email = document.getElementById('email').value;
-    var company = document.getElementById('company').value;
-    var jobtitle = document.getElementById('jobtitle').value;
-    var url = document.getElementById('url').value;
     
     if(firstname === ''|| phone === '' || email === ''){
         // alert('Please fill in all fields');   
@@ -338,11 +335,13 @@ function submitForm() {
         highlightEmptyFields(email, 'email');
        
         document.getElementById('errormsg').innerText = "Please fill in all fields*";
-    }else if(!isValidPhone(phone)){
+    }
+    // }else if(!isValidPhone(phone)){
         
-    //validate correct inputs
-        highlightField('phone');
-    }else{
+    // //validate correct inputs
+    //     highlightField('phone');
+    // }
+    else{
 
         
     // Disable submit button while waiting for API response
@@ -353,12 +352,12 @@ function submitForm() {
 
     // Convert form data to JSON
       const formData = {
-        "FN" : firstname,
-        "TITLE": jobtitle,
-        "ORG" : company,
-        "TEL" : phone,
-        "EMAIL" : email,
-        "URL" : url
+        firstname,
+        jobtitle,
+        company,
+        phone,
+        email,
+        url
       };
 
       // Send a POST request with JSON payload
